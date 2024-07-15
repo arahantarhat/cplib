@@ -1,47 +1,5 @@
-#include <algorithm>
-#include <bitset>
-#include <cassert>
-#include <cctype>
-#include <cerrno>
-#include <cfloat>
-#include <chrono>
-#include <climits>
-#include <cmath>
-#include <complex>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <deque>
-#include <exception>
-#include <fstream>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <istream>
-#include <iterator>
-#include <limits>
-#include <list>
-#include <map>
-#include <memory>
-#include <new>
-#include <numeric>
-#include <ostream>
-#include <queue>
-#include <random>
-#include <set>
-#include <sstream>
-#include <stack>
-#include <stdexcept>
-#include <streambuf>
-#include <string>
-#include <tuple>
-#include <typeinfo>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
-#include <valarray>
-#include <vector>
+// Competitive Programming Helper
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -53,143 +11,337 @@ typedef pair<int, int> pii;
 #define mp make_pair
 #define L first
 #define R second
+#define endl "\n"
 
-// safe double operations and etc
+#define fo(i, l, r) for(int i = l; i < r; i++) // denotes open set
+#define fc(i, l, r) for(int i = l; i <= r; i++) // denotes closed set
+#define rfo(i, l, r) for(int i = r; i > l; i--) // r means reversed
+#define rfc(i, l, r) for(int i = r; i >= l; i--) // r means reversed
 
-int isqrt(int n) {
-    int lo = 0, hi = n;
-    while (lo <= hi) {
-        int mid = lo + (hi - lo) / 2;
-        if (mid * mid <= n) {
-            lo = mid + 1;
-        } else {
-            hi = mid - 1;
-        }
-    }
-    return lo - 1;
+signed main() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	
 }
 
-
-long long div_ceil (long long a, long long b) {
-	return (b ›= 0 ? (a + b - 1) : a) / b;
+// Prime check
+bool isPrime(int n) {
+	if (n <= 1) return false;
+	for (int i = 2; i * i <= n; ++i) {
+		if (n % i == 0) return false;
+	}
+	return true;
 }
 
-int binpow(int a, int b){
-	int r = 1;
-	while(b){
-		if(b & 1){
-			r = r * a;
+// Greatest common divisor
+int gcd(int a, int b) {
+	return __gcd(a, b);
+}
+
+// Least common multiple
+int lcm(int a, int b) {
+	return (a / __gcd(a, b)) * b;
+}
+
+// Sieve of Eratosthenes
+vector<int> sieve(int n) {
+	vector<bool> is_prime(n + 1, true);
+	vector<int> primes;
+	for (int p = 2; p * p <= n; ++p) {
+		if (is_prime[p]) {
+			for (int i = p * p; i <= n; i += p)
+				is_prime[i] = false;
 		}
-		a = a * a;
+	}
+	for (int p = 2; p <= n; ++p) {
+		if (is_prime[p]) primes.push_back(p);
+	}
+	return primes;
+}
+
+// Factorize
+vector<int> factorize(int n) {
+	vector<int> factors;
+	for (int p = 2; p * p <= n; ++p) {
+		while (n % p == 0) {
+			factors.push_back(p);
+			n /= p;
+		}
+	}
+	if (n > 1) factors.push_back(n);
+	return factors;
+}
+
+// Euler's Totient Function
+int phi(int n) {
+	int result = n;
+	for (int p = 2; p * p <= n; ++p) {
+		if (n % p == 0) {
+			while (n % p == 0) n /= p;
+			result -= result / p;
+		}
+	}
+	if (n > 1) result -= result / n;
+	return result;
+}
+
+// Integer square root
+int isqrt(int n) {
+	int lo = 0, hi = n;
+	while (lo <= hi) {
+		int mid = lo + (hi - lo) / 2;
+		if (mid * mid <= n) {
+			lo = mid + 1;
+		} else {
+			hi = mid - 1;
+		}
+	}
+	return lo - 1;
+}
+
+// Ceiling division
+long long div_ceil(long long a, long long b) {
+	return (b >= 0 ? (a + b - 1) : a) / b;
+}
+
+// Binary exponentiation
+int binpow(int a, int b) {
+	int r = 1;
+	while (b) {
+		if (b & 1) {
+			r *= a;
+		}
+		a *= a;
 		b >>= 1;
 	}
 	return r;
 }
 
-// number theory
+struct Graph {
+	int vertices;
+	vector<vector<int> > adj;
+	int edges;
 
-bool isPrime(int n){
-	if(n <= 1) return 0;
-	for(int i = 2; i < (n / 2); i++){
-		if(n % i == 0){
-			return 0;
+	Graph(int v) : vertices(v), adj(v), edges(0) {}
+
+	void addEdge(int u, int v) {
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+		edges++;
+	}
+
+	void addDirectedEdge(int u, int v) {
+		adj[u].push_back(v);
+		edges++;
+	}
+
+	int getNumVertices() {
+		return vertices;
+	}
+
+	int getNumEdges() {
+		return edges;
+	}
+
+	void print_graph() {
+		cout << "Graph adjacency list:" << endl;
+		for (int i = 0; i < vertices; ++i) {
+			cout << i << " -> ";
+			for (int v : adj[i]) {
+				cout << v << " ";
+			}
+			cout << endl;
 		}
 	}
-	return 1;
+};
+
+// Iterative DFS
+void iterativeDFS(int start, const vector<vector<int>>& adj) {
+	int n = adj.size();
+	vector<bool> visited(n, false);
+	stack<int> stk;
+	stk.push(start);
+
+	while (!stk.empty()) {
+		int node = stk.top();
+		stk.pop();
+
+		if (!visited[node]) {
+			visited[node] = true;
+
+			for (auto it = adj[node].rbegin(); it != adj[node].rend(); ++it) {
+				if (!visited[*it]) {
+					stk.push(*it);
+				}
+			}
+		}
+	}
 }
 
-int gcd(int a, int b){
-	if(b == 0) return a;
-	return gcd(b, a % b);
+// Iterative BFS
+void iterativeBFS(int start, const vector<vector<int>>& adj) {
+	int n = adj.size();
+	vector<bool> visited(n, false);
+	queue<int> q;
+	q.push(start);
+	visited[start] = true;
+
+	while (!q.empty()) {
+		int node = q.front();
+		q.pop();
+
+		for (int neighbor : adj[node]) {
+			if (!visited[neighbor]) {
+				visited[neighbor] = true;
+				q.push(neighbor);
+			}
+		}
+	}
 }
 
-int extendedGCD(int a, int b, int &x, int &y) {
-    if (b == 0) {
-        x = 1;
-        y = 0;
-        return a;
-    }
-    int x1, y1;
-    int gcd = extendedGCD(b, a % b, x1, y1);
-    x = y1;
-    y = x1 - (a / b) * y1;
-    return gcd;
-}
+const int MAXN = 1000;
 
-int lcm(int a, int b) {
-    return (a / gcd(a, b)) * b;
-}
+struct DSU {
+	vector<int> lst[MAXN];
+	int parent[MAXN];
+	int set_count;
 
-vector<int> sieve(int n) {
-    vector<bool> is_prime(n + 1, true);
-    vector<int> primes;
-    for (int p = 2; p * p <= n; ++p) {
-        if (is_prime[p]) {
-            for (int i = p * p; i <= n; i += p)
-                is_prime[i] = false;
-        }
-    }
-    for (int p = 2; p <= n; ++p) {
-        if (is_prime[p]) primes.push_back(p);
-    }
-    return primes;
-}
+	DSU() {
+		set_count = 0;
+	}
 
-vector<int> factorize(int n) {
-    vector<int> factors;
-    for (int p = 2; p * p <= n; ++p) {
-        while (n % p == 0) {
-            factors.push_back(p);
-            n /= p;
-        }
-    }
-    if (n > 1) factors.push_back(n);
-    return factors;
-}
+	void make_set(int v) {
+		lst[v] = vector<int>(1, v);
+		parent[v] = v;
+		set_count++;
+	}
 
-int phi(int n) {
-    int result = n;
-    for (int p = 2; p * p <= n; ++p) {
-        if (n % p == 0) {
-            while (n % p == 0) n /= p;
-            result -= result / p;
-        }
-    }
-    if (n > 1) result -= result / n;
-    return result;
-}
+	int find_set(int v) {
+		return parent[v];
+	}
 
-int modFactorial(int n, int m) {
-    int result = 1;
-    for (int i = 2; i <= n; ++i) {
-        result = (result * i) % m;
-    }
-    return result;
-}
+	void union_sets(int a, int b) {
+		a = find_set(a);
+		b = find_set(b);
+		if (a != b) {
+			if (lst[a].size() < lst[b].size())
+				swap(a, b);
+			while (!lst[b].empty()) {
+				int v = lst[b].back();
+				lst[b].pop_back();
+				parent[v] = a;
+				lst[a].push_back(v);
+			}
+			set_count--;
+		}
+	}
 
-int modInverse(int a, int m) {
-    int x, y;
-    int gcd = extendedGCD(a, m, x, y);
-    if (gcd != 1) return -1; // Modular inverse does not exist
-    return (x % m + m) % m;
-}
+	int size_of_set(int v) {
+		return lst[find_set(v)].size();
+	}
 
-// combinatorics
+	int get_set_count() const {
+		return set_count;
+	}
 
-int permutations(int n, int k) {
-    return factorial(n) / factorial(n - k);
-}
+	void print_dsu() {
+		cout << "Disjoint Set Union State:" << endl;
+		for (int i = 0; i < MAXN; ++i) {
+			if (!lst[i].empty()) {
+				cout << "Set " << i << ": ";
+				for (int v : lst[i]) {
+					cout << v << " ";
+				}
+				cout << endl;
+			}
+		}
+	}
+};
 
-int combinations(int n, int k) {
-    return factorial(n) / (factorial(k) * factorial(n - k));
-}
+struct FenwickTree {
+	vector<int> bit; 
+	vector<int> original;
+	int n;
 
-int binomialCoefficient(int n, int k) {
-    if (k > n) return 0;
-    if (k == 0 || k == n) return 1;
-    return binomialCoefficient(n - 1, k - 1) + binomialCoefficient(n - 1, k);
-}
+	FenwickTree(int n) {
+		this->n = n;
+		bit.assign(n + 1, 0);       
+		original.assign(n + 1, 0);  
+	}
 
-int catalanNumber(int n) {
-    return binomialCoefficient(2 * n, n) / (n + 1);
-}
+	FenwickTree(vector<int> const &a) : FenwickTree(a.size()) {
+		original = vector<int>(a.size() + 1, 0);
+		for (int i = 1; i <= n; i++) {
+			add(i, a[i - 1]); 
+		}
+	}
+
+	int sum(int r) {
+		int ret = 0;
+		for (; r > 0; r -= r & -r)
+			ret += bit[r];
+		return ret;
+	}
+
+	int sum(int l, int r) {
+		return sum(r) - sum(l - 1);
+	}
+
+	void add(int idx, int delta) {
+		original[idx] += delta;
+		for (; idx <= n; idx += idx & -idx)
+			bit[idx] += delta;
+	}
+
+	void pointUpdate(int idx, int newValue) {
+		int delta = newValue - original[idx];
+		original[idx] = newValue;
+		for (; idx <= n; idx += idx & -idx)
+			bit[idx] += delta;
+	}
+
+	void print() {
+		cout << "Original vector: ";
+		for (int i = 1; i <= n; ++i) {
+			cout << original[i] << " ";
+		}
+		cout << endl;
+
+		cout << "Fenwick Tree: ";
+		for (int i = 1; i <= n; ++i) {
+			cout << bit[i] << " ";
+		}
+		cout << endl;
+
+		cout << "Prefix sums paths:" << endl;
+		for (int i = 1; i <= n; ++i) {
+			cout << "bit[" << i << "]: ";
+			int idx = i;
+			int path_sum = 0;
+			vector<int> path;
+			while (idx > 0) {
+				path.push_back(original[idx]);
+				path_sum += original[idx];
+				idx -= idx & -idx;
+			}
+			for (int j = path.size() - 1; j >= 0; --j) {
+				cout << path[j] << " ";
+			}
+			cout << ": " << path_sum << endl;
+		}
+	}
+};
+
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+
+typedef tree<int, null_type, less<int>, rb_tree_tag,
+			 tree_order_statistics_node_update>
+	indexed_set;
+
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+
+template<typename Key, typename Value>
+using indexed_map = tree<Key, Value, less<Key>, rb_tree_tag, tree_order_statistics_node_update>;
