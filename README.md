@@ -18,9 +18,7 @@
 - If it’s a concise and simple topic, just paste its implementation
 
 # Other things
-
 - If it’s just way too obvious don’t add it, let’s be as space-efficient as possible
---- 
 # Como configurar (template):
 (en mac)
 1. En la parte de arriba, click code -> preferences -> configure user snippets -> elige cpp.json
