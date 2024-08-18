@@ -1,0 +1,23 @@
+# 8.1 Introduction to Dynamic Programming
+
+# 8.2 Grid DP
+
+## 8.2.1 2D DP Problems
+
+## 8.2.2 Pathfinding DP
+
+# 8.3 Bitmask DP
+
+# 8.4 Knapsack Variants
+
+## 8.4.1 0/1 Knapsack
+
+## 8.4.2 Fractional Knapsack
+
+# 8.5 DP Optimization Techniques
+
+## 8.5.1 Divide and Conquer DP
+
+## 8.5.2 Convex Hull Trick
+
+# 8.6 Advanced DP Problems (Digit DP, etc.)
