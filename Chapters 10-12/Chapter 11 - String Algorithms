@@ -1,0 +1,19 @@
+# 11.1 String Matching
+
+## 11.1.1 KMP Algorithm
+
+## 11.1.2 Rabin-Karp Algorithm
+
+# 11.2 Suffix Arrays and Trees
+
+## 11.2.1 Suffix Array Construction
+
+## 11.2.2 Longest Common Prefix (LCP)
+
+# 11.3 String Hashing
+
+## 11.3.1 Rolling Hash
+
+## 11.3.2 Applications of Hashing in String Matching
+
+# 11.4 Trie and Suffix Automaton
