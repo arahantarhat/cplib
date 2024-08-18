@@ -1,0 +1,107 @@
+# 6.1 Graph Basics
+
+## 6.1.1 Representation (Adjacency List, Matrix Graph)
+
+There’s 2 ways of implementing graphs. An ***adjacency list*** is just a vector of vectors, which store connections. The ***matrix graph*** is just a matrix where each point’s neighbours are its adjacent points.
+
+### Adjacency List Graph Implementation
+
+```cpp
+template <typename T>
+class Graph {
+public:
+    vector<vector<int>> adj; 
+    unordered_map<T, int> vertex_to_index; 
+    unordered_map<int, T> index_to_vertex;  
+    int edges;
+
+    Graph() : edges(0) {}
+
+    void addVertex(const T& vertex) {
+        if (vertex_to_index.find(vertex) == vertex_to_index.end()) {
+            int index = adj.size();
+            vertex_to_index[vertex] = index;
+            index_to_vertex[index] = vertex;
+            adj.push_back(vector<int>());  
+        }
+    }
+
+    void addEdge(const T& u, const T& v) {
+        addVertex(u);
+        addVertex(v);
+        int index_u = vertex_to_index[u];
+        int index_v = vertex_to_index[v];
+        adj[index_u].push_back(index_v);
+        adj[index_v].push_back(index_u);
+        edges++;
+    }
+
+    void addDirectedEdge(const T& u, const T& v) {
+        addVertex(u);
+        addVertex(v);
+        int index_u = vertex_to_index[u];
+        int index_v = vertex_to_index[v];
+        adj[index_u].push_back(index_v);
+        edges++;
+    }
+
+    int getNumVertices() const {
+        return adj.size();
+    }
+
+    int getNumEdges() const {
+        return edges;
+    }
+
+    void printGraph() const {
+        cout << "Graph adjacency list:" << endl;
+        for (size_t i = 0; i < adj.size(); ++i) {
+            cout << index_to_vertex.at(i) << " -> ";
+            for (int v : adj[i]) {
+                cout << index_to_vertex.at(v) << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+```
+
+### Matrix Graph
+
+## 6.1.2 Graph Properties
+
+# 6.2 Graph Traversal
+
+## 6.2.1 Depth First Search (DFS)
+
+## 6.2.2 Breadth First Search (BFS)
+
+# 6.3 Shortest Path Algorithms
+
+## 6.3.1 Dijkstra's Algorithm
+
+## 6.3.2 Bellman-Ford Algorithm
+
+## 6.3.3 Floyd-Warshall Algorithm
+
+## 6.3.4 A* Search
+
+# 6.4 Minimum Spanning Tree
+
+## 6.4.1 Kruskal's Algorithm
+
+## 6.4.2 Prim's Algorithm
+
+## 6.5 Network Flow
+
+## 6.5.1 Ford-Fulkerson Method
+
+## 6.5.2 Edmonds-Karp Algorithm
+
+# 6.6 Advanced Topics in Graph Theory
+
+## 6.6.1 Strongly Connected Components
+
+## 6.6.2 Bipartite Graphs
+
+## 6.6.3 Planarity and Graph Coloring
