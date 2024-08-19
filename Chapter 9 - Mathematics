@@ -1,6 +1,36 @@
 # 9.1 Number Theory
 
-## 9.1.1 Prime Numbers (Sieve of Eratosthenes)
+## 9.1.1 Prime Numbers
+
+### 9.1.1.1 Properties & Important stuff
+
+- $\pi(x)≈\frac{n}{\ln n}$ ⇒ This estimates the amount of primes under a number $n$.
+
+### 9.1.1.2 Sieve of Erathostenes
+
+- this is an algorithm that finds the prime numbers from $[0,n]$.
+    - it works by spotting a prime number and marking all its multiples as non-primes.
+    - its time complexity is $O(n\log\log n)$
+
+```cpp
+// Sieve of Eratosthenes
+
+vector<int> sieve(int n) {
+    vector<bool> is_prime(n + 1, true); // stores whether a number is prime or not
+    vector<int> primes; // actually stores primes
+    for (int p = 2; p * p <= n; ++p) { // find primes from 0 to n
+        if (is_prime[p]) {
+            for (int i = p * p; i <= n; i += p) // marks multiples as primes
+                is_prime[i] = false;
+        }
+    }
+    // here it fills the vector with the primes that have been found
+    for (int p = 2; p <= n; ++p) {
+        if (is_prime[p]) primes.push_back(p);
+    }
+    return primes;
+}
+```
 
 ## 9.1.2 Modular Arithmetic
 
